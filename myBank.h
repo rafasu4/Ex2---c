@@ -3,13 +3,13 @@
 
 int openAccount(double arr[][]);
 
-void closeAccount(double arr[][]);
+//void closeAccount(double arr[][]);
 
-void accountRemain(double arr[][]);
+//void accountRemain(double arr[][]);
 
-void deposit (double arr[][]);
+//void deposit (double arr[][]);
 
-void withdraw(double arr[][]);
+//void withdraw(double arr[][]);
 
 void interest (double arr[][]);
 
