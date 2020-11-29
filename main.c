@@ -1,192 +1,171 @@
-#include <stadio.h>
+#include <stdio.h>
 #include "myBank.h"
-#define  R 50
-#define  C 3
 
 
 
 
-int main{
 
-
+int main(){
 	char letter;
-	double  dep;
-	int accouts[R][C];
-	int accoutNum=901;
+	double mode, accountNumber,  dep, amount, remain, interes;
 
-
-
-// initial array to 0 
-
-	for( int i=0; i<R; i++){
-		accouts[i][0]=0;//closed or opened - first initiation to close
-		accouts[i][1]=accoutNum;//the account number
-		accouts[i][2]=0;//remained cash
-		accoutNum++;
-
-	}
-
-
-
-	printf("Transaction type?:");
-	scanf("%c",&letter);
+	initial();
+	do{
 	printf("\n");
-	while(letter=='O' || letter=='B' || letter=='D' || letter=='W' || letter=='C' || letter=='I' ||letter=='P' || letter=='E'){
-	switch (letter){
-		case 'O':
-		int getAccountNum=0;
+	printf("Transaction type?: ");
+	scanf(" %c",&letter);
+	printf("\n");
 
+	switch (letter){
+
+		case 'O':
 		printf("Initial deposit?:");
 		scanf("%lf", &dep);
-
-		getAccountNum= openAccount(accouts);
-		if( getAccountNum== -1){
-			printf("No account available!\n");
+		if(dep < 0){
+			printf("Deposit cann't be negative!");
 			break;
 		}
 
-		if(dep<0){
-			printf("Deposit can not be negetive!");
-		}
+		accountNumber = openAccount(dep);
 
+		if(accountNumber  == -1){
+			printf("No room for new account!");
+			break;
+		}
 		else{
-			accouts[getAccountNum-901][2]=dep;
+			printf("%.0lf", accountNumber);
+			break;
 		}
-		return getAccountNum;
-		break;
-
 
 		case 'B':
-		double accountNumber;
 		printf("Account number?:");
 		scanf("%lf", &accountNumber);
+		printf("\n");
 		
 		if(accountNumber < 901 || accountNumber >950){
-			printf("Account number must be between 901 - 950!");
+			printf("Account number must be between 901 - 950!\n");
 			break;
 		}
-		else{
-			if(accouts[accountNumber-901][0] == 0){
-				printf("The given account is closed!");
-				break;
-			}
-			printf("%lf", accouts[accountNumber-901][2]);
+
+		amount = accountRemain(accountNumber);
+
+		if(amount == -1){
+			printf("Given account number is closed!");
 			break;
 		}
+
+		printf("%.2lf", amount);
+		break;
 
 		case 'D':
-		double accountNumber, amount;
 		printf("Account number?");
 		scanf("%lf", &accountNumber);
+		printf("\n");
 		
-		if(accountNumber < 901 || accountNumber >950){
-			printf("Account number must be between 901 - 950!");
+		if(accountNumber <901 || accountNumber >950){
+			printf("Account number must be between 901 - 950!\n");
 			break;
 		}
-		else{
-			if(accouts[accountNumber-901][0] == 0){
-				printf("The given account is closed!");
-				break;
-			}
-			printf("Amount?:");
-			scanf("%lf", &amount);
-
-			if(amount<0){
-				printf("Cann't deposit a negative amount of money!" );
-				break;
-			}
-			accouts[accountNumber-901][2] += amount;
-
-			printf("%lf",accouts[accountNumber-901][2]);
+		printf("Amount?:");
+		scanf("%lf", &amount);
+		if(amount<0){
+			printf("\n");
+			printf("Cann't deposit a negative amount of money!\n" );
 			break;
+			}
 
+		dep = deposit(amount, accountNumber);	
+		if(dep == -1){
+			printf("Given account number is closed!");
+			break;
+		}
+
+		printf("%.2lf", dep);
+		break;
+		
 		case 'W':
-		double accountNumber, amount;
 		printf("Account number?");
 		scanf("%lf", &accountNumber);
+		printf("\n");
 		
 		if(accountNumber < 901 || accountNumber >950){
-			printf("Account number must be between 901 - 950!");
+			printf("Account number must be between 901 - 950!\n");
 			break;
 		}
-		else{
-			if(accouts[accountNumber-901][0] == 0){
-				printf("The given account is closed!");
-				break;
-			}
-			printf("Amount?:");
-			scanf("%lf", &amount);
 
-			if(amount>accouts[accountNumber-901][2]){
-				printf("Not enough money at the account!");
-				break;
-			}
-
-			accouts[accountNumber-901][3]-= amount;
-			printf("%lf",accouts[accountNumber-901][2]);
+		printf("Amount?:");
+		scanf("%lf", &amount);
+		if(amount<0){
+			printf("\n");
+			printf("Can not withdraw a negative amount of money!\n" );
 			break;
-			
+			}
 
+		remain = withdraw(amount,accountNumber);	
+		if(remain == -1){
+			printf("Given account number is closed!");
+			break;
+		}
+
+		if(remain == -2){
+			printf("Not enough money at the account!\n");
+			break;
+		}
+
+		printf("%.2lf", remain );
+		break;
 
 		case 'C':
-		double accountNumber;
 		printf("Account number?");
 		scanf("%lf", &accountNumber);
+		printf("\n");
 		
 		if(accountNumber < 901 || accountNumber >950){
 			printf("Account number must be between 901 - 950!");
 			break;
 		}
 
-		if(accouts[accountNumber-901][0]==0){
-			printf("The account is already closed!");
+		mode = closeAccount(accountNumber);
+		if(mode == -1){
+			printf("Account is already closed!");
 			break;
 		}
 
-		accounts[accountNumber-901][0] = 0;
-		accounts[accountNumber-901][2] = 0;
 		break;
 
 		case 'I':
-		double positive_interest;
 		printf("Interest rate?:");
-		scanf("%lf", &positive_interest);
+		scanf("%lf", &interes);
+		printf("\n");
 
-		if(interest < 0 ){
-			printf("Interest cann't be negative!");
+		if(interes<-100){
+			printf("Interest can not be below -100!");
 			break;
 		}
 
-		interest(accounts, positive_interest);
+		interest(interes);
 		break;
 
 		case 'P':
-		for (int i = 0; i < R; ++i)
-		{
-			if(accounts[i][0] != 0){
-				printf("Account number: %d, Account remain: %lf", accounts[i][1], accounts[i][2]);
-				printf("\n" );
-			}
-		}
+		printAll();
 		break;
 
 		case 'E':
-		for(int i = 0; i<R; i++){
-			if(accounts[i][0] != 0){
-				accounts[i][0] = 0;
-				accounts[i][2] = 0;
-			}
+			closeAll();
+			printf("All the accounts have been closed. bye-bye!\n");		
+			return 0;
+		
+
+		default:
+			printf("Enter a valid character!");
 			break;
 		}
-		default:
-	}
+			
 
+}while(letter!='E');
 
-
-
-
-
-
-
-	}
 }
+
+
+
+	

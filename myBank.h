@@ -1,19 +1,22 @@
 #ifndef MYBANK
 #define MYBANK
 
-int openAccount(double arr[][]);
+void initial();
 
-//void closeAccount(double arr[][]);
+double openAccount(double amount);
 
-//void accountRemain(double arr[][]);
+double accountRemain(double accountNumber);
 
-//void deposit (double arr[][]);
+double deposit (double amount, double accountNumber);
 
-//void withdraw(double arr[][]);
+double withdraw(double amount, double accountNumber);
 
-void interest (double arr[][]);
+double closeAccount(double accountNumber);
 
+void interest (double interes);
 
+void printAll();
 
+void closeAll();
 
 #endif
