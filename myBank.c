@@ -20,6 +20,13 @@ void initial(){
 }	
 
 
+double isOpen(double accountNumber){
+	if(accounts[(int)accountNumber-901][0] == 0){
+		return -1;	
+	}
+	return 0;	
+}
+
 
 double openAccount(double amount){
 	getAccountNum = -1;
@@ -35,9 +42,6 @@ double openAccount(double amount){
 	}
 
 double accountRemain(double accountNumber){
-	if(accounts[(int)accountNumber-901][0] == 0){
-		return -1;
-	}
 	return accounts[(int)accountNumber-901][2];
 }
 
@@ -50,9 +54,6 @@ double deposit (double amount, double accountNumber){
 }
 
 double withdraw(double amount, double accountNumber){
-	if(accounts[(int)accountNumber-901][0] == 0){
-		return -1;
-		}
 	if(accounts[(int)accountNumber-901][2] < amount){
 		return -2;
 	}
@@ -62,12 +63,9 @@ double withdraw(double amount, double accountNumber){
 }
 
 double closeAccount(double accountNumber){
-	if(accounts[(int)accountNumber-901][0]==0){
-		return -1;
-		}
 	accounts[(int)accountNumber-901][2] = 0;
 	accounts[(int)accountNumber-901][0] = 0;
-	return 0;	
+	return accountNumber;	
 }
 
 void interest (double interes){
@@ -81,7 +79,7 @@ void interest (double interes){
 void printAll(){
 	for (int i = 0; i < R; ++i){
 			if(accounts[i][0] != 0){
-				printf("Account number: %.0lf, Account remain: %.2lf", accounts[i][1], accounts[i][2]);
+				printf("The balance of account number %.0lf is: %.2lf", accounts[i][1], accounts[i][2]);
 				printf("\n" );
 			}
 		}

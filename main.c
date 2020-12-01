@@ -7,22 +7,26 @@
 
 int main(){
 	char letter;
-	double mode, accountNumber,  dep, amount, remain, interes;
+	double mode, accountNumber,  dep, amount, remain, interes, open;
 
 	initial();
 	do{
-	printf("\n");
-	printf("Transaction type?: ");
+	printf("\n" );
+	printf("\n" );
+	printf("Please choose a transaction type:\nO-Open Account\nB-Balance Inquiry\nD-Deposit\nW-Withdrawal\nC-Close Account\nI-Interest\nP-Print\nE-Exit\n");
 	scanf(" %c",&letter);
-	printf("\n");
 
 	switch (letter){
 
 		case 'O':
-		printf("Initial deposit?:");
-		scanf("%lf", &dep);
+		printf("Please enter amount for deposit: ");
+		if(scanf("%lf", &dep) == 0 ){
+			printf("Failed to read the amount");
+			break;
+		}
+		
 		if(dep < 0){
-			printf("Deposit cann't be negative!");
+			printf("Invalid Amount");
 			break;
 		}
 
@@ -33,113 +37,140 @@ int main(){
 			break;
 		}
 		else{
-			printf("%.0lf", accountNumber);
+			printf("New account number is: %.0lf", accountNumber);
 			break;
 		}
-
+		
 		case 'B':
-		printf("Account number?:");
-		scanf("%lf", &accountNumber);
-		printf("\n");
+		printf("Please enter account number: ");
+		if(scanf("%lf", &accountNumber) == 0){
+			printf("Failed to read the account number");
+			break;
+		}
 		
-		if(accountNumber < 901 || accountNumber >950){
-			printf("Account number must be between 901 - 950!\n");
+		 if(accountNumber < 901 || accountNumber >950){
+			printf("Invalid account number");
 			break;
 		}
 
+		open = isOpen(accountNumber);
+		if(open == -1){
+			printf("This account is closed");
+			break;
+		}
+	
 		amount = accountRemain(accountNumber);
-
-		if(amount == -1){
-			printf("Given account number is closed!");
-			break;
-		}
-
-		printf("%.2lf", amount);
+		printf("The balance of account number %.0lf is: %.2lf", accountNumber, amount);
 		break;
-
-		case 'D':
-		printf("Account number?");
-		scanf("%lf", &accountNumber);
-		printf("\n");
 		
-		if(accountNumber <901 || accountNumber >950){
-			printf("Account number must be between 901 - 950!\n");
+		case 'D':
+		printf("Please enter account number: ");
+		if(scanf("%lf", &accountNumber) == 0){
+			printf("Failed to read the account number");
 			break;
 		}
-		printf("Amount?:");
-		scanf("%lf", &amount);
+
+		if(accountNumber <901 || accountNumber >950){
+			printf("Invalid account number");
+			break;
+		}
+
+		open = isOpen(accountNumber);
+		if(open == -1 ){
+			printf("This account is closed");
+			break;
+		}
+
+		printf("Please enter the amount to deposit: ");
+		if(scanf("%lf", &amount) == 0){
+			printf("Failed to read the amount");
+			break;
+		}
+
 		if(amount<0){
-			printf("\n");
-			printf("Cann't deposit a negative amount of money!\n" );
+			printf("Cannot deposit a negative amount" );
 			break;
 			}
 
 		dep = deposit(amount, accountNumber);	
-		if(dep == -1){
-			printf("Given account number is closed!");
-			break;
-		}
 
-		printf("%.2lf", dep);
+		printf("The new balance is: %.2lf", dep);
 		break;
 		
 		case 'W':
-		printf("Account number?");
-		scanf("%lf", &accountNumber);
-		printf("\n");
+		printf("Please enter account number: ");
+		if(scanf("%lf", &accountNumber) == 0){
+			printf("Failed to read the account number");
+			break;
+		}
 		
 		if(accountNumber < 901 || accountNumber >950){
-			printf("Account number must be between 901 - 950!\n");
+			printf("Invalid account number");
 			break;
 		}
 
-		printf("Amount?:");
-		scanf("%lf", &amount);
+		open = isOpen(accountNumber);
+		if(open == -1 ){
+			printf("This account is closed");
+			break;
+		}
+
+		printf("Please enter the amount to withdraw: ");
+		if(scanf("%lf", &amount) == 0){
+			printf("Failed to read the amount");
+			break;
+		}
 		if(amount<0){
 			printf("\n");
-			printf("Can not withdraw a negative amount of money!\n" );
+			printf("Cannot withdraw more than the balance" );
 			break;
 			}
 
 		remain = withdraw(amount,accountNumber);	
 		if(remain == -1){
-			printf("Given account number is closed!");
+			printf("This account is closed");
 			break;
 		}
 
 		if(remain == -2){
-			printf("Not enough money at the account!\n");
+			printf("Cannot withdraw more than the balance");
 			break;
 		}
 
-		printf("%.2lf", remain );
+		printf("The new balance is: %.2lf", remain );
 		break;
 
 		case 'C':
-		printf("Account number?");
-		scanf("%lf", &accountNumber);
-		printf("\n");
+		printf("Please enter account number: ");
+		if(scanf("%lf", &accountNumber) == 0){
+			printf("Failed to read the account number");
+			break;
+		}
 		
 		if(accountNumber < 901 || accountNumber >950){
-			printf("Account number must be between 901 - 950!");
+			printf("Invalid account number");
+			break;
+		}
+
+		open = isOpen(accountNumber);
+		if(open == -1){
+			printf("This account is closed");
 			break;
 		}
 
 		mode = closeAccount(accountNumber);
-		if(mode == -1){
-			printf("Account is already closed!");
-			break;
-		}
-
+		printf("Closed account number %.0lf",mode );
 		break;
 
 		case 'I':
-		printf("Interest rate?:");
-		scanf("%lf", &interes);
-		printf("\n");
+		printf("Please enter interest rate: ");
+		if(scanf("%lf", &interes) == 0){
+			printf("Failed to read the interest rate");
+		}
+		
 
 		if(interes<-100){
-			printf("Interest can not be below -100!");
+			printf("Invalid interest rate");
 			break;
 		}
 
@@ -151,15 +182,15 @@ int main(){
 		break;
 
 		case 'E':
-			closeAll();
-			printf("All the accounts have been closed. bye-bye!\n");		
+			closeAll();	
 			return 0;
 		
 
 		default:
-			printf("Enter a valid character!");
-			break;
-		}
+		printf("Invalid transaction type");
+		break;
+		printf("\n");
+	}
 			
 
 }while(letter!='E');

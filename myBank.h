@@ -3,6 +3,8 @@
 
 void initial();
 
+double isOpen(double accountNumber);
+
 double openAccount(double amount);
 
 double accountRemain(double accountNumber);
