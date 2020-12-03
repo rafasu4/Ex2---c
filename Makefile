@@ -1,17 +1,17 @@
 CC = gcc
 AR = ar
-mymaths = libmyMath.a
+mybanks = libmyBank.a
 FLAGS = -Wall -g
 
 all: mains
 
 #static exe
-mains: myBank.o main.o mymaths
-	$(CC) $(FLAGS) -o mains main.o myBank.o mymaths
+mains: myBank.o main.o mybanks
+	$(CC) $(FLAGS) -o mains main.o myBank.o mybanks
 	
 #creating static library
-mymaths: myBank.o
-	$(AR) -rcs mymaths myBank.o	 	
+mybanks: myBank.o
+	$(AR) -rcs mybanks myBank.o	 	
 
 
 main.o: main.c myBank.h
@@ -25,4 +25,4 @@ myBank.o: myBank.c myBank.h
 .PHONY: clean all
 
 clean:
-	rm -f *.o *.so *.a mains mymaths		
+	rm -f *.o *.so *.a mains mybanks		
